@@ -25,11 +25,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('/src/pages/personnel.vue'),
             },
 
-            // {
-            //     path: '/:pathMatch(.*)*',
-            //     name: '404',
-            //     redirect: '/marketing',
-            // },
+            {
+                path: '/:pathMatch(.*)*',
+                name: '404',
+                redirect: '/marketing',
+            },
         ],
     },
 ]
