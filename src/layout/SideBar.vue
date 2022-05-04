@@ -58,6 +58,11 @@ const modelControl = computed({
 })
 const navLinks = [
     {
+        title: 'home',
+        to: '/',
+        icon: 'IconGlobe',
+    },
+    {
         title: 'marketing',
         to: '/marketing',
         icon: 'IconGlobe',

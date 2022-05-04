@@ -19,7 +19,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
-a.router-link-active {
+a.router-link-exact-active {
     /* 
     @apply is to add tailwind css's classes.
     more at https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles
