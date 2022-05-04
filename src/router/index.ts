@@ -6,37 +6,31 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('/src/layout/Layout.vue'),
         children: [
             {
-                path: 'home',
-                name: 'Home',
-                component: () => import('/src/views/home.vue'),
+                path: '',
+                redirect: '/marketing',
             },
             {
                 path: 'marketing',
                 name: 'Marketing',
-                component: () => import('/src/views/marketing.vue'),
+                component: () => import('/src/pages/marketing.vue'),
             },
             {
                 path: 'finance',
                 name: 'Finance',
-                component: () => import('/src/views/finance.vue'),
+                component: () => import('/src/pages/finance.vue'),
             },
-            // {
-            //   path: "",
-            //   redirect: "/planning/visual-planner",
-            // },
-            //   {
-            //     path: "/unauthorized/403",
-            //     name: "unauthorized",
-            //     component: () =>
-            //       import(
-            //         /*webpackChunkName: "Unauthorized" */ "@/views/Common/Unauthorized.vue"
-            //       ),
-            //   },
+            {
+                path: 'personnel',
+                name: 'Personnel',
+                component: () => import('/src/pages/personnel.vue'),
+            },
+
+            {
+                path: '/:pathMatch(.*)*',
+                name: '404',
+                redirect: '/marketing',
+            },
         ],
-    },
-    {
-        path: '/home',
-        component: () => import('/src/views/home.vue'),
     },
 ]
 
