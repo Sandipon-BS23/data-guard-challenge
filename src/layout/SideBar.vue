@@ -6,7 +6,8 @@
         <div class="pt-4 pb-2 px-6">
             <a href="#!">
                 <div class="flex items-center">
-                    <img class="w-40 h-16 pl-4" :src="logo" />
+                    <!-- <img class="w-40 h-16 pl-4" :src="logo" /> -->
+                    <BrandIcon class="w-40 h-16 pl-2" name="logo" />
                 </div>
             </a>
         </div>
@@ -15,7 +16,7 @@
             <li v-for="(link, i) in navLinks" :key="i">
                 <NavItem :to="link.to">
                     <template v-slot:icon>
-                        <img class="w-8 h-8 mr-3" :src="getIcon(link.icon)" />
+                        <BrandIcon class="w-8 h-8 mr-3" :name="link.icon" />
                     </template>
                     <template v-slot:text>
                         <span class="capitalize">
@@ -35,8 +36,8 @@
 
 <script setup lang="ts">
 import NavItem from './NavItem.vue'
-import IconGlobe from '../components/icons/globe.vue'
-import iconclipboard from '../components/icons/clipboard.vue'
+import BrandIcon from '../components/BrandIcon.vue'
+// import iconclipboard from '../components/icons/clipboard.vue'
 import { computed } from 'vue'
 
 import logo from '../assets/logo.svg'
