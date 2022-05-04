@@ -1,11 +1,15 @@
 <template>
     <bars v-bind="$attrs" v-if="name == 'bars'" />
     <logo v-bind="$attrs" v-if="name == 'logo'" />
-    <qrcode v-bind="$attrs" v-if="name == 'qrcode'" />
-    <euro v-bind="$attrs" v-if="name == 'euro'" />
-    <check v-bind="$attrs" v-if="name == 'check'" />
+
+    <!-- icons for the bottom toggling button-->
     <checkCircle v-bind="$attrs" v-if="name == 'checkCircle'" />
     <cross-circle v-bind="$attrs" v-if="name == 'cross-circle'" />
+
+    <!-- icons for side bar menu section -->
+    <qrcode v-bind="$attrs" v-if="name == 'icon-marketing'" />
+    <euro v-bind="$attrs" v-if="name == 'icon-finance'" />
+    <check v-bind="$attrs" v-if="name == 'icon-people'" />
 </template>
 
 <script setup lang="ts">

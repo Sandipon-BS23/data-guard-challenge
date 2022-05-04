@@ -10,24 +10,29 @@ const routes: Array<RouteRecordRaw> = [
                 redirect: '/marketing',
             },
             {
-                path: 'marketing',
-                name: 'Marketing',
-                component: () => import('/src/pages/marketing.vue'),
+                path: '/:tab',
+                name: 'tab',
+                component: () => import('/src/pages/tab.vue'),
             },
-            {
-                path: 'finance',
-                name: 'Finance',
-                component: () => import('/src/pages/finance.vue'),
-            },
-            {
-                path: 'personnel',
-                name: 'Personnel',
-                component: () => import('/src/pages/personnel.vue'),
-            },
-
+            // {
+            //     path: 'marketing',
+            //     name: 'Marketing',
+            //     component: () => import('/src/pages/marketing.vue'),
+            // },
+            // {
+            //     path: 'finance',
+            //     name: 'Finance',
+            //     component: () => import('/src/pages/finance.vue'),
+            // },
+            // {
+            //     path: 'personnel',
+            //     name: 'Personnel',
+            //     component: () => import('/src/pages/personnel.vue'),
+            // },
             {
                 path: '/:pathMatch(.*)*',
                 name: '404',
+                // component: () => import('/src/pages/tab.vue'),
                 redirect: '/marketing',
             },
         ],

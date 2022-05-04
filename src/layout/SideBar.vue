@@ -11,9 +11,9 @@
             </a>
         </div>
 
-        <ul class="p-0">
-            <li v-for="(link, i) in navLinks" :key="i">
-                <NavItem :to="link.to">
+        <ul class="p-0" v-if="Object.keys(tabData).length > 0">
+            <li v-for="(link, key) in tabData" :key="key">
+                <NavItem :to="link.title.toLowerCase()">
                     <template v-slot:icon>
                         <BrandIcon class="w-8 h-8 mr-3" :name="link.icon" />
                     </template>
@@ -71,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
 import NavItem from './NavItem.vue'
 import BrandIcon from '../components/BrandIcon.vue'
 import { computed, ref } from 'vue'
@@ -106,6 +107,20 @@ const navLinks = [
 const AllStatus = ref(true)
 
 const emit = defineEmits(['update:modelValue'])
+
+/*
+    api calls 
+*/
+const tabData = ref(
+    [] as Array<{
+        title: ''
+        icon: ''
+    }>
+)
+axios.get('/api/tabdata').then((response) => {
+    // console.log('response:', response)
+    tabData.value = response.data
+})
 </script>
 
 <style scoped>
