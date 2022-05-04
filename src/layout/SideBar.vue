@@ -6,7 +6,6 @@
         <div class="pt-4 pb-2 px-6">
             <a href="#!">
                 <div class="flex items-center">
-                    <!-- <img class="w-40 h-16 pl-4" :src="logo" /> -->
                     <BrandIcon class="w-40 h-16 pl-2" name="logo" />
                 </div>
             </a>
@@ -37,10 +36,7 @@
 <script setup lang="ts">
 import NavItem from './NavItem.vue'
 import BrandIcon from '../components/BrandIcon.vue'
-// import iconclipboard from '../components/icons/clipboard.vue'
 import { computed } from 'vue'
-
-import logo from '../assets/logo.svg'
 
 const props = defineProps(['modelValue'])
 
