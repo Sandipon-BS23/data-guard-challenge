@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-64 bg-gray-100 absolute insert-y-0 left-0 transform -translate-x-full md:relative md:-translate-x-0"
+        class="w-80 bg-gray-100 absolute insert-y-0 left-0 transform -translate-x-full md:relative md:-translate-x-0"
         :class="{ 'relative -translate-x-0': modelControl }"
     >
         <div class="pt-4 pb-2 px-6">
@@ -26,9 +26,46 @@
             </li>
         </ul>
 
-        <div class="text-center bottom-0 absolute w-full">
-            <hr class="m-0" />
-            <p class="py-2 text-sm text-gray-700">tailwind-elements.com</p>
+        <div
+            class="text-center bottom-0 absolute w-full"
+            :class="
+                AllStatus
+                    ? 'bg-gradient-to-t from-green-300 to-transparent'
+                    : 'bg-gradient-to-t from-red-300 to-transparent'
+            "
+        >
+            <div
+                class="flex items-center justify-center w-full mb-0 mt-0 pb-10"
+            >
+                <label
+                    for="all-status-section-id"
+                    class="flex items-center cursor-pointer"
+                >
+                    <div class="mr-3 text-gray-700 font-medium">
+                        All plugins
+                        {{ `${AllStatus ? 'enabled' : 'disabled'}` }}
+                    </div>
+                    <div class="relative">
+                        <input
+                            v-model="AllStatus"
+                            type="checkbox"
+                            id="all-status-section-id"
+                            class="sr-only"
+                        />
+
+                        <div
+                            class="line block bg-red-600 w-14 h-8 rounded-full"
+                        />
+
+                        <div
+                            class="dot absolute left-1 top-1 text-red-500 bg-white w-6 h-6 rounded-full transition"
+                        >
+                            <BrandIcon v-if="AllStatus" name="checkCircle" />
+                            <BrandIcon v-else name="cross-circle" />
+                        </div>
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 </template>
@@ -36,7 +73,7 @@
 <script setup lang="ts">
 import NavItem from './NavItem.vue'
 import BrandIcon from '../components/BrandIcon.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps(['modelValue'])
 
@@ -66,11 +103,20 @@ const navLinks = [
     },
 ]
 
-const getIcon = (icon: string) => {
-    return '/src/assets/' + icon + '.svg'
-}
+const AllStatus = ref(true)
 
 const emit = defineEmits(['update:modelValue'])
 </script>
 
-<style scoped></style>
+<style scoped>
+input:checked ~ .dot {
+    @apply text-green-500 bg-white translate-x-full;
+}
+input:checked ~ .line {
+    @apply text-green-500 bg-green-500;
+}
+
+.green-to-white {
+    @apply text-green-500 bg-green-500;
+}
+</style>
