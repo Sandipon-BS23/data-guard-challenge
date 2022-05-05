@@ -69,7 +69,12 @@ const emit = defineEmits<{
                         :class="large ? 'w-6 h6' : 'w-4 h-4'"
                     >
                         <slot v-if="!loading" name="icon" />
-                        <BrandIcon v-else class="animate-spin" name="loading" />
+                        <BrandIcon
+                            v-else
+                            class="animate-spin"
+                            :class="{ 'm-1': large }"
+                            name="loading"
+                        />
                     </div>
                 </div>
             </label>
@@ -90,7 +95,6 @@ input:checked ~ .dot {
 input:checked ~ .line {
     @apply text-green-500 bg-green-500;
 }
-
 .green-to-white {
     @apply text-green-500 bg-green-500;
 }
