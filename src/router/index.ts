@@ -14,6 +14,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'tab',
                 component: () => import('/src/pages/tab.vue'),
             },
+
+            // Below, we can find alternate way of doing this, however then the routes will be tightly coupled with the UI.
+
             // {
             //     path: 'marketing',
             //     name: 'Marketing',
@@ -29,12 +32,11 @@ const routes: Array<RouteRecordRaw> = [
             //     name: 'Personnel',
             //     component: () => import('/src/pages/personnel.vue'),
             // },
-            {
-                path: '/:pathMatch(.*)*',
-                name: '404',
-                // component: () => import('/src/pages/tab.vue'),
-                redirect: '/marketing',
-            },
+            // {
+            //     path: '/:pathMatch(.*)*',
+            //     name: '404',
+            //     redirect: '/marketing',
+            // },
         ],
     },
 ]
@@ -42,6 +44,12 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach((to, from) => {
+    // Navigation Guards
+    // more at https://router.vuejs.org/guide/advanced/navigation-guards.html
+    return true
 })
 
 export default router

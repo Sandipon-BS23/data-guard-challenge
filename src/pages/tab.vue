@@ -1,24 +1,26 @@
 <template>
     <div
         class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
+        v-if="Object.keys(availablePlugins).length > 0"
     >
-        <div v-for="(value, i) in availablePlugins" :key="i" class="">
-            <!-- {{ value }} -->
-            <PluginCard v-model="_control" :pluginData="value" />
+        <div v-for="(plugin, i) in availablePlugins" :key="i" class="">
+            <PluginCard
+                :status="plugin.status"
+                :pluginData="plugin.info"
+                :disable="plugin.disable"
+            />
         </div>
     </div>
-    {{ pluginStore.getPlugins }}
-    <pre>
-    {{ tabStore.getTabs }}
-    </pre>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { usePluginDStore } from '../store/plugins'
 import { useTabStore } from '../store/tabs'
+
+import { TabPluginsType } from '../types/allTypes'
 
 import PluginCard from '../components/modules/plugins/PluginCard.vue'
 
@@ -26,7 +28,8 @@ import PluginCard from '../components/modules/plugins/PluginCard.vue'
     Routes Properties
 */
 const route = useRoute()
-const currentTab = computed(() => route.params.tab)
+const router = useRouter()
+const currentTab = computed(() => route.params.tab as string)
 
 const _control = ref(false)
 
@@ -35,24 +38,23 @@ const _control = ref(false)
 */
 
 const pluginStore = usePluginDStore()
-pluginStore.fetchPlugins()
 const tabStore = useTabStore()
-tabStore.fetchTabs()
 
 /*
     Computed Properties
 */
 
 const specificTab = computed(() => {
-    const tabData = Object.values(tabStore.getTabs).find((t) => {
-        const cTab = currentTab.value as String
-        return t.title.toLowerCase() === cTab.toLowerCase()
-    })
-    return tabData
+    let currentTabData = tabStore.getTabs[currentTab.value]
+
+    // incase invalid url, in best case, this should be taken care at navigation guard level, for now just leaving this logic here.
+    if (!currentTabData) router.push({ path: '/tab1' })
+
+    return currentTabData
 })
 
 const availablePlugins = computed(() => {
-    const filteredPlugins = {}
+    const filteredPlugins: TabPluginsType = {}
 
     Object.entries(pluginStore.getPlugins).forEach(([key, value]) => {
         if (specificTab.value) {
@@ -62,28 +64,28 @@ const availablePlugins = computed(() => {
 
             if (TabActive.includes(key)) {
                 filteredPlugins[key] = {
-                    pluginInfo: value,
-                    active: true,
-                    disabled: false,
-                    inactive: false,
+                    info: value,
+                    disable: false,
+                    status: true,
+                    tab: currentTab.value,
                 }
             }
 
             if (TabDisabled.includes(key)) {
                 filteredPlugins[key] = {
-                    pluginInfo: value,
-                    active: false,
-                    disabled: true,
-                    inactive: false,
+                    info: value,
+                    disable: true,
+                    status: true,
+                    tab: currentTab.value,
                 }
             }
 
             if (TabInactive.includes(key)) {
                 filteredPlugins[key] = {
-                    pluginInfo: value,
-                    active: false,
-                    disabled: false,
-                    inactive: true,
+                    info: value,
+                    disable: false,
+                    status: false,
+                    tab: currentTab.value,
                 }
             }
         }

@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { fetchServePlugins } from '../service/modules/plugins'
 
-import { plugins } from '../types/allTypes'
+import { PluginsType } from '../types/allTypes'
 
 export const usePluginDStore = defineStore('plugins', {
     state: () => {
-        return { plugins: {} as plugins }
+        return { plugins: {} as PluginsType }
     },
 
     getters: {

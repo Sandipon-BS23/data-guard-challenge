@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { fetchServeTabs } from '../service/modules/tabs'
 
-import { tabs } from '../types/allTypes'
+import { TabsType } from '../types/allTypes'
 
 export const useTabStore = defineStore('tabs', {
     state: () => {
-        return { tabs: {} as tabs }
+        return { tabs: {} as TabsType }
     },
 
     getters: {

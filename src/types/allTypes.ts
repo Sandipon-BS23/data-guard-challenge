@@ -1,13 +1,4 @@
-export type plugin = {
-    title: string
-    description: string
-}
-
-export type plugins = {
-    [key: string]: plugin
-}
-
-export type tab = {
+export type TabType = {
     title: string
     icon: string
     active: string[]
@@ -15,6 +6,26 @@ export type tab = {
     inactive: string[]
 }
 
-export type tabs = {
-    [key: string]: tab
+export type TabsType = {
+    [key: string]: TabType
+}
+
+export type PluginType = {
+    title: string
+    description: string
+}
+
+export type PluginsType = {
+    [key: string]: PluginType
+}
+
+export type TabPluginType = {
+    info: PluginType
+    disable: boolean
+    status: boolean
+    tab: string
+}
+
+export type TabPluginsType = {
+    [key: string]: TabPluginType
 }

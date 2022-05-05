@@ -1,7 +1,7 @@
 <template>
     <div
         class="w-80 bg-gray-100 absolute insert-y-0 left-0 transform -translate-x-full md:relative md:-translate-x-0"
-        :class="{ 'relative -translate-x-0': modelControl }"
+        :class="{ 'relative -translate-x-0': sideBarControl }"
     >
         <div class="pt-4 pb-2 px-6">
             <a href="#!">
@@ -11,21 +11,23 @@
             </a>
         </div>
 
-        <ul class="p-0" v-if="Object.keys(tabData).length > 0">
-            <li v-for="(link, key) in tabData" :key="key">
-                <NavItem :to="link.title.toLowerCase()">
+        <!-- Sidebar Navigation Items -->
+        <ul class="p-0" v-if="Object.keys(tabStore.getTabs).length > 0">
+            <li v-for="(value, name, index) in tabStore.getTabs" :key="index">
+                <NavItem :to="name.toString()">
                     <template v-slot:icon>
-                        <BrandIcon class="w-8 h-8 mr-3" :name="link.icon" />
+                        <BrandIcon class="w-8 h-8 mr-3" :name="value.icon" />
                     </template>
                     <template v-slot:text>
                         <span class="capitalize">
-                            {{ link.title }}
+                            {{ value.title }}
                         </span>
                     </template>
                 </NavItem>
             </li>
         </ul>
 
+        <!-- Bottom Section  -->
         <div
             class="text-center bottom-0 absolute w-full"
             :class="
@@ -46,23 +48,15 @@
                         {{ `${AllStatus ? 'enabled' : 'disabled'}` }}
                     </div>
                     <div class="relative">
-                        <input
-                            v-model="AllStatus"
-                            type="checkbox"
-                            id="all-status-section-id"
-                            class="sr-only"
-                        />
-
-                        <div
-                            class="line block bg-red-600 w-14 h-8 rounded-full"
-                        />
-
-                        <div
-                            class="dot absolute left-1 top-1 text-red-500 bg-white w-6 h-6 rounded-full transition"
-                        >
-                            <BrandIcon v-if="AllStatus" name="checkCircle" />
-                            <BrandIcon v-else name="cross-circle" />
-                        </div>
+                        <BaseSwitch v-model="AllStatus" large>
+                            <template v-slot:icon>
+                                <BrandIcon
+                                    v-if="AllStatus"
+                                    name="checkCircle"
+                                />
+                                <BrandIcon v-else name="cross-circle" />
+                            </template>
+                        </BaseSwitch>
                     </div>
                 </label>
             </div>
@@ -71,14 +65,25 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import NavItem from './NavItem.vue'
 import BrandIcon from '../components/brand/BrandIcon.vue'
+import BaseSwitch from '../components/base/BaseSwitch.vue'
 import { computed, ref } from 'vue'
+import { useTabStore } from '../store/tabs'
 
+/* 
+ Pinia Store
+*/
+const tabStore = useTabStore()
+
+const AllStatus = ref(true)
+
+/*
+    This is to control the sidebar. 
+    User of this component can show or hide it via v-model
+*/
 const props = defineProps(['modelValue'])
-
-const modelControl = computed({
+const sideBarControl = computed({
     get() {
         return props.modelValue
     },
@@ -86,41 +91,7 @@ const modelControl = computed({
         emit('update:modelValue', value)
     },
 })
-const navLinks = [
-    {
-        title: 'marketing',
-        to: '/marketing',
-        icon: 'qrcode',
-    },
-    {
-        title: 'finance',
-        to: '/finance',
-        icon: 'euro',
-    },
-    {
-        title: 'Personnel',
-        to: '/personnel',
-        icon: 'check',
-    },
-]
-
-const AllStatus = ref(true)
-
 const emit = defineEmits(['update:modelValue'])
-
-/*
-    api calls 
-*/
-const tabData = ref(
-    [] as Array<{
-        title: ''
-        icon: ''
-    }>
-)
-axios.get('/api/tabdata').then((response) => {
-    // console.log('response:', response)
-    tabData.value = response.data
-})
 </script>
 
 <style scoped>
