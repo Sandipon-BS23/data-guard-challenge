@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             {
                 path: '',
-                redirect: '/marketing',
+                redirect: '/tab',
             },
             {
                 path: '/:tab',

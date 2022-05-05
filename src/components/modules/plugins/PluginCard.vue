@@ -32,7 +32,6 @@ import { computed, onMounted, PropType, ref } from 'vue'
 import BaseSwitch from '../../base/BaseSwitch.vue'
 import { usePluginStore } from '../../../store/plugins'
 import { useTabStore } from '../../../store/tabs'
-import { updateServerTabStatus } from '../../../service/modules/tabs'
 
 const props = defineProps({
     plugin: {
@@ -62,21 +61,22 @@ const pluginData = computed(() => pluginStore.getPlugins[props.plugin])
 const tabStore = useTabStore()
 
 const isLoading = ref(false)
+
 const cardStatus = computed({
     get: () => {
         return props.status
     },
     set: (value) => {
         isLoading.value = true
-        updateServerTabStatus({
-            tab: props.tab,
-            type: value ? 'active' : 'inactive',
-            value: props.plugin,
-        }).then(() => {
-            tabStore.fetchTabs().then(() => {
+        tabStore
+            .updateTabStatus(
+                props.tab,
+                value ? 'active' : 'inactive',
+                props.plugin
+            )
+            .then(() => {
                 isLoading.value = false
             })
-        })
     },
 })
 </script>

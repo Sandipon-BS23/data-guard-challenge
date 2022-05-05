@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
-import { fetchServerTabs } from '../service/modules/tabs'
+import {
+    fetchDbTabs,
+    updateDbTabStatus,
+    toggleAllDbTabEnableDisable,
+} from '../service/modules/tabs'
 
 import { TabsType } from '../types/allTypes'
 
@@ -14,7 +18,23 @@ export const useTabStore = defineStore('tabs', {
 
     actions: {
         async fetchTabs() {
-            await fetchServerTabs().then(({ data }) => (this.tabs = data))
+            await fetchDbTabs().then(({ data }) => (this.tabs = data))
+        },
+
+        async updateTabStatus(
+            tabKey: string,
+            actionType: 'active' | 'inactive',
+            pluginKey: string | string[]
+        ) {
+            await updateDbTabStatus(tabKey, actionType, pluginKey).then(
+                ({ data }) => (this.tabs = { ...this.tabs, ...data })
+            )
+        },
+
+        async toggleAllTabEnableDisable(isEnable: boolean) {
+            await toggleAllDbTabEnableDisable(isEnable).then(
+                ({ data }) => (this.tabs = data)
+            )
         },
     },
 })

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchServePlugins } from '../service/modules/plugins'
+import { fetchDbPlugins } from '../service/modules/plugins'
 
 import { PluginsType } from '../types/allTypes'
 
@@ -14,7 +14,7 @@ export const usePluginStore = defineStore('plugins', {
 
     actions: {
         async fetchPlugins() {
-            await fetchServePlugins().then(({ data }) => (this.plugins = data))
+            await fetchDbPlugins().then(({ data }) => (this.plugins = data))
         },
     },
 })

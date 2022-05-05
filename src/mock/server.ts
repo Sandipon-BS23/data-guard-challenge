@@ -21,10 +21,7 @@ let server = createServer({
             }
         })
         this.post('/tabdata/:id', (schema, request) => {
-            // console.log('in post request:', request.requestBody)
-            // console.log('in post schema:', schema.db)
             let id = request.params.id
-            // console.log('in post id:', id)
             return {
                 [id]: db.data.tabdata[id],
             }

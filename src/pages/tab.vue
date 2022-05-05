@@ -105,5 +105,3 @@ const availablePlugins = computed(() => {
     return filteredPlugins
 })
 </script>
-
-<style lang="stylus" scoped></style>

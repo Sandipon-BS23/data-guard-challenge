@@ -2,7 +2,7 @@
     <div
         class="text-center bottom-0 absolute w-full"
         :class="
-            allStatus
+            powerBtnStatus
                 ? 'bg-gradient-to-t from-green-300 to-transparent'
                 : 'bg-gradient-to-t from-red-300 to-transparent'
         "
@@ -14,45 +14,49 @@
             >
                 <div class="mr-3 text-gray-700 font-medium">
                     All plugins
-                    {{ `${allStatus ? 'enabled' : 'disabled'}` }}
+                    {{ `${powerBtnStatus ? 'enabled' : 'disabled'}` }}
                 </div>
                 <div class="relative">
-                    <BaseSwitch v-model="allStatus" large :loading="isLoading">
+                    <BaseSwitch
+                        v-model="powerBtnStatus"
+                        large
+                        :loading="isLoading"
+                    >
                         <template v-slot:icon>
-                            <BrandIcon v-if="allStatus" name="checkCircle" />
+                            <BrandIcon
+                                v-if="powerBtnStatus"
+                                name="checkCircle"
+                            />
                             <BrandIcon v-else name="cross-circle" />
                         </template>
                     </BaseSwitch>
                 </div>
             </label>
         </div>
+        <div class="text-xs opacity-50 px-5 pb-2">
+            Assuming, when power button tries to enable all, previous state of
+            disabled data still gets preserved.
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+
+import { useTabStore } from '../store/tabs'
+
 import BrandIcon from '../components/brand/BrandIcon.vue'
 import BaseSwitch from '../components/base/BaseSwitch.vue'
-import { useTabStore } from '../store/tabs'
-import { disableServerPluginStatus } from '../service/modules/tabs'
+
+const powerBtnStatus = ref(true)
 
 const tabStore = useTabStore()
-
-console.log(tabStore.getTabs)
-
-const allStatus = ref(true)
 const isLoading = ref(false)
 
-watch(allStatus, (val) => {
+watch(powerBtnStatus, (val) => {
     isLoading.value = true
-    disableServerPluginStatus({
-        isEnable: !val,
-    }).then(() => {
-        tabStore.fetchTabs().then(() => {
-            isLoading.value = false
-        })
+    tabStore.toggleAllTabEnableDisable(val as boolean).then(() => {
+        isLoading.value = false
     })
 })
 </script>
-
-<style lang="stylus" scoped></style>

@@ -7,8 +7,8 @@
         <div class="flex-1">
             <!-- header -->
             <Header @onMenuClicked="SideBarControl = !SideBarControl" />
-            <Content />
             <!-- content -->
+            <Content />
         </div>
     </div>
 </template>
