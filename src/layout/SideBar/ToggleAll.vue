@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+import { useTabStore } from '../../store/tabs'
+
+import BrandIcon from '../../components/brand/BrandIcon.vue'
+import BaseSwitch from '../../components/base/BaseSwitch.vue'
+
+const powerBtnStatus = ref(true)
+
+const tabStore = useTabStore()
+const isLoading = ref(false)
+
+watch(powerBtnStatus, (val) => {
+    isLoading.value = true
+    tabStore.toggleAllTabEnableDisable(val as boolean).then(() => {
+        isLoading.value = false
+    })
+})
+</script>
+
 <template>
     <div
         class="text-center bottom-0 absolute w-full"
@@ -39,24 +60,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-
-import { useTabStore } from '../store/tabs'
-
-import BrandIcon from '../components/brand/BrandIcon.vue'
-import BaseSwitch from '../components/base/BaseSwitch.vue'
-
-const powerBtnStatus = ref(true)
-
-const tabStore = useTabStore()
-const isLoading = ref(false)
-
-watch(powerBtnStatus, (val) => {
-    isLoading.value = true
-    tabStore.toggleAllTabEnableDisable(val as boolean).then(() => {
-        isLoading.value = false
-    })
-})
-</script>

@@ -1,3 +1,9 @@
+<script setup lang="ts">
+const props = defineProps({
+    to: String,
+})
+</script>
+
 <template>
     <div>
         <router-link
@@ -6,19 +12,18 @@
         >
             <slot name="icon"> </slot>
             <span>
-                <slot name="text"> </slot>
+                <span class="capitalize">
+                    <slot name="text"> </slot>
+                </span>
             </span>
         </router-link>
     </div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps({
-    to: String,
-})
-</script>
-
 <style scoped>
+/**
+    This class is attached by the vue router to detect currently active route
+*/
 a.router-link-exact-active {
     /* 
     @apply is to add tailwind css's classes.

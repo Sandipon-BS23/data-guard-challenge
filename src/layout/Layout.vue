@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import SideBar from './SideBar/index.vue'
+import Header from './Header.vue'
+import Content from './Content.vue'
+
+import { usePluginStore } from '../store/plugins'
+import { useTabStore } from '../store/tabs'
+
+const SideBarControl = ref(false)
+
+/**
+ * Fetching basic data at a very top level of the module.
+ */
+
+/** Plugin Store */
+const pluginStore = usePluginStore()
+pluginStore.fetchPlugins()
+
+/** Tab Store */
+const tabStore = useTabStore()
+tabStore.fetchTabs()
+</script>
+
 <template>
     <div class="relative flex min-h-screen">
         <!-- sidebar -->
@@ -12,22 +37,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import SideBar from './SideBar.vue'
-import Header from './Header.vue'
-import Content from './Content.vue'
-import { ref } from 'vue'
-
-import { usePluginStore } from '../store/plugins'
-import { useTabStore } from '../store/tabs'
-
-const SideBarControl = ref(false)
-
-const pluginStore = usePluginStore()
-pluginStore.fetchPlugins()
-const tabStore = useTabStore()
-tabStore.fetchTabs()
-</script>
-
-<style scoped></style>

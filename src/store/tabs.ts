@@ -5,7 +5,7 @@ import {
     toggleAllDbTabEnableDisable,
 } from '../service/modules/tabs'
 
-import { TabsType } from '../types/allTypes'
+import { TabsType } from '../types'
 
 export const useTabStore = defineStore('tabs', {
     state: () => {

@@ -1,7 +1,7 @@
 import useAxios from '../axios'
 import { AxiosResponse } from 'axios'
 
-import { TabsType } from '../../types/allTypes'
+import { TabsType } from '../../types'
 
 /**
  * @returns {TabsType} A list of all tab data.

@@ -9,6 +9,9 @@ const routes: Array<RouteRecordRaw> = [
                 path: '',
                 redirect: '/tab',
             },
+
+            // dynamic route
+
             {
                 path: '/:tab',
                 name: 'tab',
@@ -47,7 +50,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-    // Navigation Guards
+    // Navigation Guards. Here not adding any code. In a big project, navigation guards are important.
     // more at https://router.vuejs.org/guide/advanced/navigation-guards.html
     return true
 })

@@ -22,7 +22,7 @@ app.mount('#app')
 
 import db from './mock/db.json'
 import { createServer } from 'miragejs'
-import { TabsType, PluginsType } from './types/allTypes'
+import { TabsType, PluginsType } from './types'
 let server = createServer({
     routes() {
         /* Adding some artificial delay. */
