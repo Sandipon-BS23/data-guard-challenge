@@ -10,6 +10,9 @@
     <qrcode v-bind="$attrs" v-if="name == 'icon-marketing'" />
     <euro v-bind="$attrs" v-if="name == 'icon-finance'" />
     <check v-bind="$attrs" v-if="name == 'icon-people'" />
+
+    <!-- loading -->
+    <loading v-bind="$attrs" v-if="name == 'loading'" />
 </template>
 
 <script setup lang="ts">
@@ -23,6 +26,7 @@ import bars from './icons/bars.vue'
 import checkCircle from './icons/checkCircle.vue'
 import crossCircle from './icons/crossCircle.vue'
 
+import loading from './icons/loading.vue'
 const props = defineProps({
     name: String,
 })

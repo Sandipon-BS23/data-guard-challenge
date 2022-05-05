@@ -1,5 +1,8 @@
 <template>
-    <div class="flex items-end justify-end w-full mb-0 mt-0 pb-0">
+    <div
+        class="flex items-end justify-end w-full mb-0 mt-0 pb-0"
+        :class="disabled ? 'opacity-50' : ''"
+    >
         <div class="grid" :class="ifLabelSlot ? 'grid-rows-2' : 'grid-rows-1'">
             <label class="flex items-end cursor-pointer pl-1">
                 <div class="relative">
@@ -19,7 +22,8 @@
                         class="dot absolute left-1 top-1 text-red-500 bg-white rounded-full transition"
                         :class="large ? 'w-6 h6' : 'w-4 h-4'"
                     >
-                        <slot name="icon" />
+                        <slot v-if="!loading" name="icon" />
+                        <BrandIcon v-else class="animate-spin" name="loading" />
                     </div>
                 </div>
             </label>
@@ -34,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
+import BrandIcon from '../../components/brand/BrandIcon.vue'
 import { useSlots, computed, ref } from 'vue'
 const slots = useSlots()
-console.log(slots.label)
 
 const ifLabelSlot = computed(() => {
     return slots.label ? true : false
@@ -59,12 +63,17 @@ const props = defineProps({
         required: false,
         default: false,
     },
+
+    loading: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 })
 
 const modelControl = computed({
     get: () => props.modelValue as boolean,
     set: (value) => {
-        console.log('value:', value)
         emit('update:modelValue', value)
     },
 })

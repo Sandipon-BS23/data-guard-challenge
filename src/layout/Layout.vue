@@ -19,12 +19,12 @@ import Header from './Header.vue'
 import Content from './Content.vue'
 import { ref } from 'vue'
 
-import { usePluginDStore } from '../store/plugins'
+import { usePluginStore } from '../store/plugins'
 import { useTabStore } from '../store/tabs'
 
 const SideBarControl = ref(false)
 
-const pluginStore = usePluginDStore()
+const pluginStore = usePluginStore()
 pluginStore.fetchPlugins()
 const tabStore = useTabStore()
 tabStore.fetchTabs()

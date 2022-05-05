@@ -20,10 +20,10 @@ export type PluginsType = {
 }
 
 export type TabPluginType = {
-    info: PluginType
+    pluginKey: string
+    tabKey: string
     disable: boolean
     status: boolean
-    tab: string
 }
 
 export type TabPluginsType = {

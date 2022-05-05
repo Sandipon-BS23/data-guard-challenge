@@ -5,8 +5,9 @@
     >
         <div v-for="(plugin, i) in availablePlugins" :key="i" class="">
             <PluginCard
+                :plugin="plugin.pluginKey"
+                :tab="plugin.tabKey"
                 :status="plugin.status"
-                :pluginData="plugin.info"
                 :disable="plugin.disable"
             />
         </div>
@@ -17,7 +18,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { usePluginDStore } from '../store/plugins'
+import { usePluginStore } from '../store/plugins'
 import { useTabStore } from '../store/tabs'
 
 import { TabPluginsType } from '../types/allTypes'
@@ -37,7 +38,7 @@ const _control = ref(false)
     Pinia Store
 */
 
-const pluginStore = usePluginDStore()
+const pluginStore = usePluginStore()
 const tabStore = useTabStore()
 
 /*
@@ -64,28 +65,28 @@ const availablePlugins = computed(() => {
 
             if (TabActive.includes(key)) {
                 filteredPlugins[key] = {
-                    info: value,
+                    pluginKey: key,
+                    tabKey: currentTab.value,
                     disable: false,
                     status: true,
-                    tab: currentTab.value,
                 }
             }
 
             if (TabDisabled.includes(key)) {
                 filteredPlugins[key] = {
-                    info: value,
+                    pluginKey: key,
+                    tabKey: currentTab.value,
                     disable: true,
                     status: true,
-                    tab: currentTab.value,
                 }
             }
 
             if (TabInactive.includes(key)) {
                 filteredPlugins[key] = {
-                    info: value,
+                    pluginKey: key,
+                    tabKey: currentTab.value,
                     disable: false,
                     status: false,
-                    tab: currentTab.value,
                 }
             }
         }

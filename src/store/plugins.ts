@@ -3,7 +3,7 @@ import { fetchServePlugins } from '../service/modules/plugins'
 
 import { PluginsType } from '../types/allTypes'
 
-export const usePluginDStore = defineStore('plugins', {
+export const usePluginStore = defineStore('plugins', {
     state: () => {
         return { plugins: {} as PluginsType }
     },

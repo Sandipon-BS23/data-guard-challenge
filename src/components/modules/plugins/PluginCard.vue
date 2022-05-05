@@ -7,9 +7,16 @@
             <div class="flex flex-row h-16">
                 <div class="basis-1/2">{{ pluginData.title }}</div>
                 <div class="basis-1/2 text-right">
-                    <BaseSwitch v-model="cardStatus" :disabled="disable">
+                    <BaseSwitch
+                        v-model="cardStatus"
+                        :disabled="disable || isLoading"
+                        :loading="isLoading"
+                    >
                         <template v-slot:label>
-                            {{ `${cardStatus ? 'Allowed' : 'Blocked'}` }}
+                            <span v-if="!isLoading">
+                                {{ `${cardStatus ? 'Allowed' : 'Blocked'}` }}
+                            </span>
+                            <span v-else class="text-gray-500"> Loading </span>
                         </template>
                     </BaseSwitch>
                 </div>
@@ -21,13 +28,20 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
 import { computed, onMounted, PropType, ref } from 'vue'
 import BaseSwitch from '../../base/BaseSwitch.vue'
 import { PluginType } from '../../../types/allTypes'
+import { usePluginStore } from '../../../store/plugins'
+import { useTabStore } from '../../../store/tabs'
 
 const props = defineProps({
-    pluginData: {
-        type: Object as PropType<PluginType>,
+    plugin: {
+        type: String,
+        required: true,
+    },
+    tab: {
+        type: String,
         required: true,
     },
     status: {
@@ -40,18 +54,30 @@ const props = defineProps({
     },
 })
 
+/*
+    Pinia Store
+*/
+const pluginStore = usePluginStore()
+const pluginData = computed(() => pluginStore.getPlugins[props.plugin])
+const tabStore = useTabStore()
+
+const isLoading = ref(false)
 const cardStatus = computed({
     get: () => {
         return props.status
     },
     set: (value) => {
-        console.log('value >>:', value)
-        // axios
-        //     .post('/api/tabdata/tab3', { type: 'inactive', value: 'plugin11' })
-        //     .then((response) => {
-        //         console.log('response:', response)
-        //         // fakeData.value = response.data
-        //     })
+        isLoading.value = true
+        axios
+            .post('/api/tabdata/' + props.tab, {
+                type: value ? 'active' : 'inactive',
+                value: props.plugin,
+            })
+            .then((response) => {
+                tabStore.fetchTabs().then(() => {
+                    isLoading.value = false
+                })
+            })
     },
 })
 
