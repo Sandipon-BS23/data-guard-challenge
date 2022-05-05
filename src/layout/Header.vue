@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import BrandIcon from '../components/BrandIcon.vue'
+import BrandIcon from '../components/brand/BrandIcon.vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()

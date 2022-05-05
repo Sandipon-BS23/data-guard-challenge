@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, PropType, ref } from 'vue'
-import BaseSwitch from './BaseSwitch.vue'
+import BaseSwitch from '../../base/BaseSwitch.vue'
 
 interface PluginInterface {
     pluginInfo: {

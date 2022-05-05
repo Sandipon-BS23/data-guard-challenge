@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import axios from 'axios'
 import NavItem from './NavItem.vue'
-import BrandIcon from '../components/BrandIcon.vue'
+import BrandIcon from '../components/brand/BrandIcon.vue'
 import { computed, ref } from 'vue'
 
 const props = defineProps(['modelValue'])

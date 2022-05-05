@@ -7,51 +7,54 @@
             <PluginCard v-model="_control" :pluginData="value" />
         </div>
     </div>
+    {{ pluginStore.getPlugins }}
+    <pre>
+    {{ tabStore.getTabs }}
+    </pre>
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
 
-import PluginCard from '../components/PluginCard.vue'
+import { usePluginDStore } from '../store/plugins'
+import { useTabStore } from '../store/tabs'
 
+import PluginCard from '../components/modules/plugins/PluginCard.vue'
+
+/*
+    Routes Properties
+*/
 const route = useRoute()
 const currentTab = computed(() => route.params.tab)
 
+const _control = ref(false)
+
 /*
-    api calls
+    Pinia Store
 */
-const plugins = ref({})
-axios.get('/api/plugins').then((response) => {
-    plugins.value = response.data
-})
 
-type tab = {
-    title: String
-    icon: String
-    active: String[]
-    disabled: String[]
-    inactive: String[]
-}
+const pluginStore = usePluginDStore()
+pluginStore.fetchPlugins()
+const tabStore = useTabStore()
+tabStore.fetchTabs()
 
-const tabs = ref([] as tab[])
-axios.get('/api/tabdata').then((response) => {
-    tabs.value = response.data
-})
+/*
+    Computed Properties
+*/
 
 const specificTab = computed(() => {
-    const tabData = Object.values(tabs.value).find((t) => {
+    const tabData = Object.values(tabStore.getTabs).find((t) => {
         const cTab = currentTab.value as String
         return t.title.toLowerCase() === cTab.toLowerCase()
-    }) as tab
+    })
     return tabData
 })
 
 const availablePlugins = computed(() => {
     const filteredPlugins = {}
 
-    Object.entries(plugins.value).forEach(([key, value]) => {
+    Object.entries(pluginStore.getPlugins).forEach(([key, value]) => {
         if (specificTab.value) {
             const TabActive = specificTab.value.active as String[]
             const TabDisabled = specificTab.value.disabled as String[]
@@ -88,8 +91,6 @@ const availablePlugins = computed(() => {
 
     return filteredPlugins
 })
-
-const _control = ref(false)
 </script>
 
 <style lang="stylus" scoped></style>
