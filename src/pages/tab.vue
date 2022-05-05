@@ -48,7 +48,9 @@ const tabStore = useTabStore()
 const specificTab = computed(() => {
     let currentTabData = tabStore.getTabs[currentTab.value]
 
-    // incase invalid url, in best case, this should be taken care at navigation guard level, for now just leaving this logic here.
+    // incase invalid url,
+    // in best case, this should be taken care at navigation guard level
+    // for now just leaving this logic here.
     if (!currentTabData) router.push({ path: '/tab1' })
 
     return currentTabData
@@ -63,15 +65,6 @@ const availablePlugins = computed(() => {
             const TabDisabled = specificTab.value.disabled as String[]
             const TabInactive = specificTab.value.inactive as String[]
 
-            if (TabActive.includes(key)) {
-                filteredPlugins[key] = {
-                    pluginKey: key,
-                    tabKey: currentTab.value,
-                    disable: false,
-                    status: true,
-                }
-            }
-
             if (TabDisabled.includes(key)) {
                 filteredPlugins[key] = {
                     pluginKey: key,
@@ -81,12 +74,29 @@ const availablePlugins = computed(() => {
                 }
             }
 
-            if (TabInactive.includes(key)) {
-                filteredPlugins[key] = {
-                    pluginKey: key,
-                    tabKey: currentTab.value,
-                    disable: false,
-                    status: false,
+            if (TabActive.includes(key)) {
+                if (filteredPlugins[key]) {
+                    filteredPlugins[key].status = true
+                } else {
+                    filteredPlugins[key] = {
+                        pluginKey: key,
+                        tabKey: currentTab.value,
+                        disable: false,
+                        status: true,
+                    }
+                }
+            } else {
+                if (TabInactive.includes(key)) {
+                    if (filteredPlugins[key]) {
+                        filteredPlugins[key].status = false
+                    } else {
+                        filteredPlugins[key] = {
+                            pluginKey: key,
+                            tabKey: currentTab.value,
+                            disable: false,
+                            status: false,
+                        }
+                    }
                 }
             }
         }

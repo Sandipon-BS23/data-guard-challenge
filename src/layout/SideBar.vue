@@ -28,55 +28,21 @@
         </ul>
 
         <!-- Bottom Section  -->
-        <div
-            class="text-center bottom-0 absolute w-full"
-            :class="
-                AllStatus
-                    ? 'bg-gradient-to-t from-green-300 to-transparent'
-                    : 'bg-gradient-to-t from-red-300 to-transparent'
-            "
-        >
-            <div
-                class="flex items-center justify-center w-full mb-0 mt-0 pb-10"
-            >
-                <label
-                    for="all-status-section-id"
-                    class="flex items-center cursor-pointer"
-                >
-                    <div class="mr-3 text-gray-700 font-medium">
-                        All plugins
-                        {{ `${AllStatus ? 'enabled' : 'disabled'}` }}
-                    </div>
-                    <div class="relative">
-                        <BaseSwitch v-model="AllStatus" large>
-                            <template v-slot:icon>
-                                <BrandIcon
-                                    v-if="AllStatus"
-                                    name="checkCircle"
-                                />
-                                <BrandIcon v-else name="cross-circle" />
-                            </template>
-                        </BaseSwitch>
-                    </div>
-                </label>
-            </div>
-        </div>
+        <ToggleAll />
     </div>
 </template>
 
 <script setup lang="ts">
 import NavItem from './NavItem.vue'
 import BrandIcon from '../components/brand/BrandIcon.vue'
-import BaseSwitch from '../components/base/BaseSwitch.vue'
 import { computed, ref } from 'vue'
 import { useTabStore } from '../store/tabs'
+import ToggleAll from './ToggleAll.vue'
 
 /* 
  Pinia Store
 */
 const tabStore = useTabStore()
-
-const AllStatus = ref(true)
 
 /*
     This is to control the sidebar. 

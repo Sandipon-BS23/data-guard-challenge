@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchServeTabs } from '../service/modules/tabs'
+import { fetchServerTabs } from '../service/modules/tabs'
 
 import { TabsType } from '../types/allTypes'
 
@@ -14,7 +14,7 @@ export const useTabStore = defineStore('tabs', {
 
     actions: {
         async fetchTabs() {
-            await fetchServeTabs().then(({ data }) => (this.tabs = data))
+            await fetchServerTabs().then(({ data }) => (this.tabs = data))
         },
     },
 })

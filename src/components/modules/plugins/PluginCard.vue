@@ -28,12 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import { computed, onMounted, PropType, ref } from 'vue'
 import BaseSwitch from '../../base/BaseSwitch.vue'
-import { PluginType } from '../../../types/allTypes'
 import { usePluginStore } from '../../../store/plugins'
 import { useTabStore } from '../../../store/tabs'
+import { updateServerTabStatus } from '../../../service/modules/tabs'
 
 const props = defineProps({
     plugin: {
@@ -59,6 +58,7 @@ const props = defineProps({
 */
 const pluginStore = usePluginStore()
 const pluginData = computed(() => pluginStore.getPlugins[props.plugin])
+
 const tabStore = useTabStore()
 
 const isLoading = ref(false)
@@ -68,30 +68,17 @@ const cardStatus = computed({
     },
     set: (value) => {
         isLoading.value = true
-        axios
-            .post('/api/tabdata/' + props.tab, {
-                type: value ? 'active' : 'inactive',
-                value: props.plugin,
+        updateServerTabStatus({
+            tab: props.tab,
+            type: value ? 'active' : 'inactive',
+            value: props.plugin,
+        }).then(() => {
+            tabStore.fetchTabs().then(() => {
+                isLoading.value = false
             })
-            .then((response) => {
-                tabStore.fetchTabs().then(() => {
-                    isLoading.value = false
-                })
-            })
+        })
     },
 })
-
-// const modelControl = computed({
-//     get: () => props.modelValue as boolean,
-//     set: (value) => {
-//         console.log('her ??value:', value)
-//         emit('update:modelValue', value as boolean)
-//     },
-// })
-
-// const emit = defineEmits<{
-//     (e: 'update:modelValue', checked: boolean): void
-// }>()
 </script>
 
 <style scoped>

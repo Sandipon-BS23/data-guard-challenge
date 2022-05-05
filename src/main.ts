@@ -22,12 +22,10 @@ app.mount('#app')
 
 import db from './mock/db.json'
 import { createServer } from 'miragejs'
-
+import { TabsType } from './types/allTypes'
 let server = createServer({
     routes() {
-        /*
-            Adding some artificial delay.
-        */
+        /* Adding some artificial delay. */
         this.timing = 500
         this.namespace = 'api'
 
@@ -39,7 +37,6 @@ let server = createServer({
                 (el) => el.name === 'tabdata'
             )._records[0]
 
-            // Extra Id key was added by "miragejs" which is out of scope of this coding challenge, hence handling it in a simple way.
             const copiedData = JSON.parse(JSON.stringify(data))
             delete copiedData.id
             return copiedData
@@ -56,6 +53,7 @@ let server = createServer({
         this.post('/tabdata/:id', (schema, request) => {
             // getting request param
             const reqParam = JSON.parse(request.requestBody)
+            console.log('reqParam:', reqParam)
 
             // getting data form db
             const tabdata = schema.db._collections.find(
@@ -69,22 +67,28 @@ let server = createServer({
             */
             try {
                 // extracting main needed values
-                const value = reqParam.value
+                let value = reqParam.value
+
+                if (typeof value === 'string') value = [value]
+
                 const type = reqParam.type
 
                 const tab = tabdata[id]
 
-                // updating the value as needed (if exists)
-                if (tab[type].includes(value)) {
-                } else tab[type].push(value)
+                value.forEach((el) => {
+                    console.log('el:', el)
+                    // updating the value as needed (if exists)
+                    if (tab[type].includes(el)) {
+                    } else tab[type].push(el)
 
-                // removing from the other type array (if exists)
-                const otherType = type === 'active' ? 'inactive' : 'active'
-                if (tab[otherType].includes(value)) {
-                    tab[otherType] = tab[otherType].filter((item) => {
-                        return item !== value
-                    })
-                }
+                    // removing from the other type array (if exists)
+                    const otherType = type === 'active' ? 'inactive' : 'active'
+                    if (tab[otherType].includes(el)) {
+                        tab[otherType] = tab[otherType].filter((item) => {
+                            return item !== el
+                        })
+                    }
+                })
 
                 // returning the current status
                 return {
@@ -96,16 +100,65 @@ let server = createServer({
                 }
             }
         })
+
+        this.post('/tabdata/disable/all', (schema, request) => {
+            const reqParam = JSON.parse(request.requestBody)
+            const tabdata: TabsType = getDBTabs(schema)
+            console.log('tabdata:', tabdata)
+
+            try {
+                const isEnable = reqParam.isEnable
+                Object.entries(tabdata).forEach(([tabKey, tab]) => {
+                    if (isEnable)
+                        tab.disabled = [
+                            ...tab.disabled,
+                            ...tab.active,
+                            ...tab.inactive,
+                        ]
+                    else {
+                        tab.disabled = tab.disabled.filter((val) => {
+                            return (
+                                !tab.active.includes(val) &&
+                                !tab.inactive.includes(val)
+                            )
+                        })
+                    }
+                })
+
+                return tabdata
+            } catch (err) {
+                return {
+                    error: 'Something Went wrong',
+                }
+            }
+        })
         this.get('/plugins', (schema) => {
             const data = schema.db._collections.find(
                 (el) => el.name === 'plugins'
             )._records[0]
 
+            // Extra Id key was added by "miragejs" which is out of scope of this coding challenge, hence handling it in a simple way.
             const copiedData = JSON.parse(JSON.stringify(data))
             delete copiedData.id
-            // console.log('copiedData:', copiedData)
+
             return copiedData
         })
+
+        // helper functions
+
+        const getDBTabs = (schema): TabsType => {
+            // getting data form db
+            const tabData = schema.db._collections.find(
+                (el) => el.name === 'tabdata'
+            )._records[0]
+
+            // Extra Id key gets added by "miragejs"
+            // which is out of scope of this coding challenge,
+            // hence handling it in a simple way.
+            delete tabData.id
+
+            return tabData
+        }
     },
 })
 
