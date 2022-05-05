@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white shadow px-8 py-5 h-16 flex">
+    <div class="bg-white px-8 py-5 h-16 flex">
         <button @click="emit('onMenuClicked')" class="md:hidden pr-5">
             <BrandIcon name="bars" />
         </button>

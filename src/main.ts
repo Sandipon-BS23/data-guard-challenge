@@ -95,7 +95,7 @@ let server = createServer({
 
             const copiedData = JSON.parse(JSON.stringify(data))
             delete copiedData.id
-            console.log('copiedData:', copiedData)
+            // console.log('copiedData:', copiedData)
             return copiedData
         })
     },
