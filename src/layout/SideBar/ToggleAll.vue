@@ -56,7 +56,7 @@ watch(powerBtnStatus, (val) => {
         </div>
         <div class="text-xs opacity-50 px-5 pb-2">
             Assuming, when power button tries to enable all, previous state of
-            disabled data still gets preserved.
+            disabled data remains preserved.
         </div>
     </div>
 </template>
