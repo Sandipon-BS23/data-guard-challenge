@@ -1,6 +1,6 @@
 # Vue 3 + TypeScript + Vite
 
-This is a Vue 3 and TypeScript project done with Vite. The project uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more. Also, it uses [mirage js](https://miragejs.com/) to serve mock APIs.
+This is a Vue 3 and TypeScript project done with Vite. The project uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more. Also, it uses [mirage js](https://miragejs.com/) to serve mock APIs. For css and styling, it uses [tailwindcss](https://tailwindcss.com/).
 
 ## Recommended IDE Setup
 
