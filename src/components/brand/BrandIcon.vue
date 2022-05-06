@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logo from './icons/logo.vue'
-import qrCode from './icons/qrCode.vue'
+import qrcode from './icons/qrcode.vue'
 
 import euro from './icons/euro.vue'
 import check from './icons/check.vue'
@@ -10,7 +10,7 @@ import checkCircle from './icons/checkCircle.vue'
 import crossCircle from './icons/crossCircle.vue'
 
 import loading from './icons/loading.vue'
-const props = defineProps({
+defineProps({
     name: String,
 })
 </script>
@@ -20,11 +20,11 @@ const props = defineProps({
     <logo v-bind="$attrs" v-if="name == 'logo'" />
 
     <!-- icons for the bottom toggling button-->
-    <checkCircle v-bind="$attrs" v-if="name == 'checkCircle'" />
+    <check-circle v-bind="$attrs" v-if="name == 'checkCircle'" />
     <cross-circle v-bind="$attrs" v-if="name == 'cross-circle'" />
 
     <!-- icons for side bar menu section -->
-    <qrCode v-bind="$attrs" v-if="name == 'icon-marketing'" />
+    <qrcode v-bind="$attrs" v-if="name == 'icon-marketing'" />
     <euro v-bind="$attrs" v-if="name == 'icon-finance'" />
     <check v-bind="$attrs" v-if="name == 'icon-people'" />
 
